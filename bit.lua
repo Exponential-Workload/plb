@@ -25,6 +25,16 @@ local native = selfTest and (bit or bit32)
 
 ----------------------
 
+local modulo = function(a, b)
+  -- no im not rewriting this
+  return a % b
+end
+local floor = function(a)
+  return a - modulo(a, 1)
+end
+
+----------------------
+
 local pow, bor, band, bnot, bxor, lshift, rshift
 
 ----------------------
@@ -45,8 +55,8 @@ bor = function(x, y)
     if x % 2 + y % 2 > 0 then
       result = result + p
     end
-    x = math.floor(x / 2)
-    y = math.floor(y / 2)
+    x = floor(x / 2)
+    y = floor(y / 2)
     p = p * 2
   end
   return result
@@ -59,8 +69,8 @@ band = function(a, b)
       result = result + bitval
     end
     bitval = bitval * 2
-    a = math.floor(a / 2)
-    b = math.floor(b / 2)
+    a = floor(a / 2)
+    b = floor(b / 2)
   end
   return result
 end
@@ -72,7 +82,7 @@ bnot = function(n)
     if n % 2 == 0 then
       result = result + bitval
     end
-    n = math.floor(n / 2)
+    n = floor(n / 2)
     bitval = bitval * 2
   end
   return result
@@ -87,7 +97,7 @@ end]](a, b)
     if ra ~= rb then
       res = res + p
     end
-    p, a, b = p * 2, math.floor(a / 2), math.floor(b / 2)
+    p, a, b = p * 2, floor(a / 2), floor(b / 2)
   end
   res = res + a * p + b * p
   return res
@@ -96,7 +106,7 @@ lshift = function(a, b)
   return (a * pow(2, b)) % pow(2, 32)
 end
 rshift = function(x, by)
-  return math.floor(x / pow(2, by))
+  return floor(x / pow(2, by))
 end
 
 ----------------------
